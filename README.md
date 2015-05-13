@@ -44,5 +44,3 @@ Code examples are executed via `go run`:
 
     go run rpc_server.go
     go run rpc_client.go 10
-
-To learn more, see [Go RabbitMQ client](https://github.com/streadway/amqp).
