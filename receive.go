@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"log"
 	"github.com/streadway/amqp"
+	"encoding/csv"
+	"strconv"
+	"os"
 )
 
 func failOnError(err error, msg string) {
@@ -44,10 +47,41 @@ func main() {
 	failOnError(err, "Failed to register a consumer")
 
 	forever := make(chan bool)
+	
+	// create csv file
+	file, err := os.Create("output_received.csv")
+	if err != nil {
+	log.Fatal(err)
+	}
+	
+	// new csv writer
+	writer := csv.NewWriter(file)
+	
+	// headers
+    var new_headers = []string { "message_no", "message" }
+    returnError := writer.Write(new_headers)
+	writer.Flush()
+    if returnError != nil {
+        fmt.Println(returnError)
+    }
+	
+	count := 1
 
 	go func() {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
+			num := strconv.Itoa(count)
+			
+			//n := bytes.Index(d.Body, []byte{0})
+			str := string(d.Body)
+			
+			var messages = []string { num, str } // TODO
+			returnError := writer.Write(messages)
+			writer.Flush()
+			if returnError != nil {
+				fmt.Println(returnError)
+			}		
+			count++
 		}
 	}()
 

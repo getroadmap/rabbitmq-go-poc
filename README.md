@@ -19,6 +19,8 @@ Code examples are executed via `go run`:
 
     go run send.go
     go run receive.go
+	
+	receive.go prints the sent messages with an id number to a csv file called "output_received.csv"
 
 [Tutorial two: Work Queues](http://www.rabbitmq.com/tutorial-two-python.html):
 
