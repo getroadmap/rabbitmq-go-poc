@@ -70,12 +70,11 @@ func main() {
 	go func() {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
-			num := strconv.Itoa(count)
 			
-			//n := bytes.Index(d.Body, []byte{0})
+			num := strconv.Itoa(count)
 			str := string(d.Body)
 			
-			var messages = []string { num, str } // TODO
+			var messages = []string { num, str } 
 			returnError := writer.Write(messages)
 			writer.Flush()
 			if returnError != nil {
